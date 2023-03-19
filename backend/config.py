@@ -1,0 +1,4 @@
+MYSQL_USER = "root"
+MYSQL_USER_PASSWORD = "hc659"
+MYSQL_PORT = 3306
+MYSQL_DATABASE = "kardashiandb"
