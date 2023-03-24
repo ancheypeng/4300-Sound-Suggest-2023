@@ -31,7 +31,7 @@ CORS(app)
 
 
 def sql_search(episode):
-    query_sql = f"""SELECT * FROM mytable WHERE LOWER( Artist ) LIKE '%%{episode.lower()}%%' limit 10"""
+    query_sql = f"""SELECT * FROM mytable WHERE LOWER( Album ) LIKE '%%{episode.lower()}%%' limit 10"""
     keys = ["Artist", "Title", "Album", "Year", "Date", "Lyric", "Genre"]
     data = mysql_engine.query_selector(query_sql)
     return json.dumps([dict(zip(keys, i)) for i in data])
