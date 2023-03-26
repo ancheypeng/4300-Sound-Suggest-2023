@@ -47,7 +47,12 @@ def sql_search(episode):
     songs = df.columns.tolist()[1::]
     tples = zip(tmpAns, songs) #tple list (jac val, song name)
     tples = sorted(tples, reverse=True)
-    ans = [song for (_, song) in tples[0:5]] #list of only top 5 songs
+    ans = [song for (_, song) in tples[0:10]] #list of only top 5 songs
+    jsonAns = []
+    for i in ans:
+        jsonAns.append(dict(Title = i))
+    return jsonAns
+    # return json.dumps([dict(zip(keys, i)) for i in ans])
 
 
 

@@ -33,12 +33,9 @@
 
     <script>
 
-        function answerBoxTemplate(title, Artist, Album, Lyric){
+        function answerBoxTemplate(title){
             return `<div class=''>
                 <h3 class='episode-title'>${title}</h3>
-                <p class='episode-desc'>${Artist}</p>
-                <p class='episode-desc'>${Album}</p>
-                <p class='episode-desc'>${Lyric}</p>
             </div>`
         }
 
@@ -54,7 +51,7 @@
             .then((data) => data.forEach(row => {
                 
                 let tempDiv = document.createElement("div")
-                tempDiv.innerHTML = answerBoxTemplate(row.Title,row.Artist,row.Album,row.Lyric)
+                tempDiv.innerHTML = answerBoxTemplate(row.Title)
                 document.getElementById("answer-box").appendChild(tempDiv)
             }));
 
