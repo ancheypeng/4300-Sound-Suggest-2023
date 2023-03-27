@@ -8,18 +8,7 @@
     <div class="full-body-container">
         <div class="top-text">
             <div class="google-colors">
-                <h1 id="google-c">S</h1>
-                <h1 id="google-s">O</h1>
-                <h1 id="google-4">U</h1>
-                <h1 id="google-3">N</h1>
-                <h1 id="google-0-1">D</h1>
-                <h1 id="google-0-2">S</h1>
-                <h1 id="google-c">U</h1>
-                <h1 id="google-s">G</h1>
-                <h1 id="google-4">G</h1>
-                <h1 id="google-3">E</h1>
-                <h1 id="google-0-1">S</h1>
-                <h1 id="google-0-2">T</h1>
+                <h1 id ="soundsuggest-title">SOUNDSUGGEST</h1>
             </div>
             <div class="input-box" onclick="sendFocus()">
                 <img src="{{ url_for('static', filename='images/mag.png') }}" />
@@ -33,10 +22,9 @@
 
     <script>
 
-        function answerBoxTemplate(title,titleDesc){
+        function answerBoxTemplate(title){
             return `<div class=''>
                 <h3 class='episode-title'>${title}</h3>
-                <p class='episode-desc'>${titleDesc}</p>
             </div>`
         }
 
@@ -45,15 +33,18 @@
         }
 
         function filterText(){
+            let i = 0;
             document.getElementById("answer-box").innerHTML = ""
             console.log(document.getElementById("filter-text-val").value)
             fetch("/episodes?" + new URLSearchParams({ title: document.getElementById("filter-text-val").value }).toString())
             .then((response) => response.json())
             .then((data) => data.forEach(row => {
-                
-                let tempDiv = document.createElement("div")
-                tempDiv.innerHTML = answerBoxTemplate(row.title,row.descr)
-                document.getElementById("answer-box").appendChild(tempDiv)
+                if (i < 10) {
+                    let tempDiv = document.createElement("div")
+                    tempDiv.innerHTML = answerBoxTemplate(row.Title)
+                    document.getElementById("answer-box").appendChild(tempDiv)
+                    i += 1
+                }
             }));
 
         }
