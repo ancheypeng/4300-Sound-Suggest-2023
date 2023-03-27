@@ -49,8 +49,14 @@ def sql_search(episode):
     tples = sorted(tples, reverse=True)
     ans = [song for (_, song) in tples[0:10]] #list of only top 5 songs
     jsonAns = []
+    keys = ["Artist", "Title", "Album", "Year", "Date", "Lyric", "Genre"]
     for i in ans:
-        jsonAns.append(dict(Title = i))
+        # db = f"""USE songsdb"""
+        # mysql_engine.query_executor(db)
+        query_sql = f"""USE songsdb; SELECT * FROM mytable WHERE LOWER( Title ) LIKE '%%{i.lower()}%%' limit 1"""
+        data = mysql_engine.query_selector(query_sql)
+        jsonAns.append(dict(zip(keys, j)) for j in data)
+        # jsonAns.append(dict(Title = i))
     return jsonAns
     # return json.dumps([dict(zip(keys, i)) for i in ans])
 
