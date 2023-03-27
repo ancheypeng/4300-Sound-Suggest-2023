@@ -51,13 +51,8 @@ def sql_search(episode):
     jsonAns = []
     keys = ["Artist", "Title", "Album", "Year", "Date", "Lyric", "Genre"]
     for i in ans:
-        # db = f"""USE songsdb"""
-        # mysql_engine.query_executor(db)
-        query_sql = f"""USE songsdb; SELECT * FROM mytable WHERE LOWER( Title ) LIKE '%%{i.lower()}%%' limit 1"""
-        data = mysql_engine.query_selector(query_sql)
-        jsonAns.append(dict(zip(keys, j)) for j in data)
-        # jsonAns.append(dict(Title = i))
-    return jsonAns
+        jsonAns.append(dict(Title = i))
+    return json.dumps(jsonAns)
     # return json.dumps([dict(zip(keys, i)) for i in ans])
 
 
