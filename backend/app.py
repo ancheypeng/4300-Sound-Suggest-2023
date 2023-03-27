@@ -14,7 +14,7 @@ os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..", os.curdir))
 # Don't worry about the deployment credentials, those are fixed
 # You can use a different DB name if you want to
 MYSQL_USER = "root"
-MYSQL_USER_PASSWORD = "R9sU85ujC"
+MYSQL_USER_PASSWORD = ""
 MYSQL_PORT = 3306
 MYSQL_DATABASE = "songsdb"
 
@@ -67,4 +67,4 @@ def episodes_search():
     return sql_search(text)
 
 
-app.run(debug=True)
+# app.run(debug=True)
