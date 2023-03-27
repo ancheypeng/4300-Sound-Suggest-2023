@@ -36,6 +36,10 @@
     color:#DB4437;
 }
 
+#soundsuggest-title{
+    color:#6c246a
+}
+
 .google-colors{
     display: flex;
     align-items: center;
