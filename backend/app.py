@@ -36,7 +36,9 @@ def sql_search(episode):
     # query_sql = f"""SELECT * FROM mytable WHERE LOWER( Album ) LIKE '%%{episode.lower()}%%' limit 10"""
     # keys = ["Artist", "Title", "Album", "Year", "Date", "Lyric", "Genre"]
     # data = mysql_engine.query_selector(query_sql)
+    # print(json.dumps([dict(zip(keys, i)) for i in data]))
     # return json.dumps([dict(zip(keys, i)) for i in data])
+
     df = pd.read_csv('jaccard1.csv') 
     query = episode.lower()
     tmp = df.loc[df['Unnamed: 0'].str.lower() == query] #creates new dataframe of only rows of songs inside album specified by query
@@ -48,11 +50,20 @@ def sql_search(episode):
     tples = zip(tmpAns, songs) #tple list (jac val, song name)
     tples = sorted(tples, reverse=True)
     ans = [song for (_, song) in tples[0:10]] #list of only top 5 songs
-    jsonAns = []
+    # jsonAns = []
     keys = ["Artist", "Title", "Album", "Year", "Date", "Lyric", "Genre"]
     for i in ans:
-        jsonAns.append(dict(Title = i))
+        query_sql = f"""SELECT * FROM mytable WHERE LOWER( Title ) LIKE '%%{i.lower()}%%' limit 1"""
+        data = mysql_engine.query_selector(query_sql)
+        # jsonAns.append(json.dumps([dict(zip(keys, j)) for j in data]))
+        # return json.dumps([dict(zip(keys, j)) for j in data])
+        # print(json.dumps([dict(zip(keys, j)) for j in data]))
+        # jsonAns.append(json.dumps([dict(zip(keys, j)) for j in data]))
+        jsonAns = jsonAns + (json.dumps([dict(zip(keys, j)) for j in data])) + ", "
+    jsonAns = jsonAns[:-1]
+    print(jsonAns)
     return json.dumps(jsonAns)
+
     # return json.dumps([dict(zip(keys, i)) for i in ans])
 
 
