@@ -12,7 +12,7 @@
             </div>
             <div class="input-box" onclick="sendFocus()">
                 <img src="{{ url_for('static', filename='images/mag.png') }}" />
-                <input placeholder="Search for an Album" id="filter-text-val" onkeyup="filterText()">
+                <input placeholder="Search for an Album and Press Enter" id="filter-text-val">
             </div>
         </div>
         <div id="answer-box">
@@ -21,6 +21,12 @@
     </div>
 
     <script>
+        var input = document.getElementById("filter-text-val")
+            .addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                    filterText();
+                }
+            });
 
         function answerBoxTemplate(title){
             return `<div class=''>
