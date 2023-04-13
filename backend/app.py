@@ -3,8 +3,11 @@ import os
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
+from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 import numpy as np
+import sqlalchemy as db
+import sys
 
 # ROOT_PATH for linking with all your files.
 # Feel free to use a config.py or settings.py with a global export variable
@@ -14,9 +17,9 @@ os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..", os.curdir))
 # Don't worry about the deployment credentials, those are fixed
 # You can use a different DB name if you want to
 MYSQL_USER = "root"
-MYSQL_USER_PASSWORD = "MayankRao16Cornell.edu"
+MYSQL_USER_PASSWORD = "hc659"
 MYSQL_PORT = 3306
-MYSQL_DATABASE = "kardashiandb"
+MYSQL_DATABASE = "songsdb"
 
 mysql_engine = MySQLDatabaseHandler(
     MYSQL_USER, MYSQL_USER_PASSWORD, MYSQL_PORT, MYSQL_DATABASE)
@@ -54,6 +57,15 @@ def sql_search(episode):
     return jsonAns
     # return json.dumps([dict(zip(keys, i)) for i in ans])
 
+def table_lookup():
+    # Get connection from engine object
+    conn=mysql_engine.lease_connection()
+    conn.execute(f"USE {MYSQL_DATABASE}")
+    # Metadata
+    metadata=db.MetaData()
+    #Load table from database
+    songTable=db.Table('mytable',metadata,autoload=True,autoload_with=conn)
+    # print(songTable.columns.keys())
 
 
 @app.route("/")
@@ -63,8 +75,18 @@ def home():
 
 @app.route("/episodes")
 def episodes_search():
+    # Get the text information from the input that is given to us on the frontend.
     text = request.args.get("title")
+    # Get connection from engine object
+    conn=mysql_engine.lease_connection()
+    conn.execute(f"USE {MYSQL_DATABASE}")
+    # Metadata
+    metadata=db.MetaData()
+    #Load table from database
+    songTable=db.Table('mytable',metadata,autoload=True,autoload_with=conn)
+    # r=dict(zip(songTable.keys(),songTable))
+
     return sql_search(text)
 
 
-# app.run(debug=True)
+app.run(debug=True)
