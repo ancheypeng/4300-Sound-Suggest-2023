@@ -14,7 +14,7 @@ os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..", os.curdir))
 # Don't worry about the deployment credentials, those are fixed
 # You can use a different DB name if you want to
 MYSQL_USER = "root"
-MYSQL_USER_PASSWORD = "MayankRao16Cornell.edu"
+MYSQL_USER_PASSWORD = "4300database"
 MYSQL_PORT = 3306
 MYSQL_DATABASE = "kardashiandb"
 
@@ -25,6 +25,7 @@ mysql_engine = MySQLDatabaseHandler(
 mysql_engine.load_file_into_db()
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 CORS(app)
 
 # Sample search, the LIKE operator in this case is hard-coded,
@@ -37,23 +38,23 @@ def sql_search(episode):
     # keys = ["Artist", "Title", "Album", "Year", "Date", "Lyric", "Genre"]
     # data = mysql_engine.query_selector(query_sql)
     # return json.dumps([dict(zip(keys, i)) for i in data])
-    df = pd.read_csv('jaccard1.csv') 
+    df = pd.read_csv('jaccard1.csv')
     query = episode.lower()
-    tmp = df.loc[df['Unnamed: 0'].str.lower() == query] #creates new dataframe of only rows of songs inside album specified by query
+    # creates new dataframe of only rows of songs inside album specified by query
+    tmp = df.loc[df['Unnamed: 0'].str.lower() == query]
     size = len(tmp)
-    tmpSum = tmp.sum(numeric_only=True, axis=0) #gets sum of all columns 
-    tmpAvg = tmpSum.divide(size) #gets avg of all columns
+    tmpSum = tmp.sum(numeric_only=True, axis=0)  # gets sum of all columns
+    tmpAvg = tmpSum.divide(size)  # gets avg of all columns
     tmpAns = tmpAvg.to_numpy()
     songs = df.columns.tolist()[1::]
-    tples = zip(tmpAns, songs) #tple list (jac val, song name)
+    tples = zip(tmpAns, songs)  # tple list (jac val, song name)
     tples = sorted(tples, reverse=True)
-    ans = [song for (_, song) in tples[0:10]] #list of only top 5 songs
+    ans = [song for (_, song) in tples[0:10]]  # list of only top 5 songs
     jsonAns = []
     for i in ans:
-        jsonAns.append(dict(Title = i))
+        jsonAns.append(dict(Title=i))
     return jsonAns
     # return json.dumps([dict(zip(keys, i)) for i in ans])
-
 
 
 @app.route("/")
