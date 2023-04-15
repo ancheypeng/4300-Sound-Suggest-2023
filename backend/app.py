@@ -57,7 +57,7 @@ def sql_search(episode):
     return jsonAns
     # return json.dumps([dict(zip(keys, i)) for i in ans])
 
-def table_lookup():
+def sql_search_table():
     # Get connection from engine object
     conn=mysql_engine.lease_connection()
     conn.execute(f"USE {MYSQL_DATABASE}")
@@ -65,7 +65,12 @@ def table_lookup():
     metadata=db.MetaData()
     #Load table from database
     songTable=db.Table('mytable',metadata,autoload=True,autoload_with=conn)
-    # print(songTable.columns.keys())
+
+    query=db.select([songTable])
+    resultProxy= conn.execute(query)
+    resultSet=resultProxy.fetchall()
+    
+    return resultSet
 
 
 @app.route("/")
@@ -77,15 +82,6 @@ def home():
 def episodes_search():
     # Get the text information from the input that is given to us on the frontend.
     text = request.args.get("title")
-    # Get connection from engine object
-    conn=mysql_engine.lease_connection()
-    conn.execute(f"USE {MYSQL_DATABASE}")
-    # Metadata
-    metadata=db.MetaData()
-    #Load table from database
-    songTable=db.Table('mytable',metadata,autoload=True,autoload_with=conn)
-    # r=dict(zip(songTable.keys(),songTable))
-
     return sql_search(text)
 
 
