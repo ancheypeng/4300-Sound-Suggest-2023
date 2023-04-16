@@ -1,35 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+/* @font-face {
+  font-family: Gotham;
+  src: url(static/g);
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@200;300;400;500;600;700&display=swap');
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Figtree', sans-serif;
 }
-body{
-  background: #121212;
-}
-/* ::selection{
-  color: #fff;
-  background: #664AFF;
-} */
 
-.wrapper{
-  max-width: 450px;
-  margin: 100px auto;
+a {
+  all: unset;
+}
+a:hover{
+  all: unset;
+}
+
+body{
+  color: white;
+  background: #121212;
+  width: 100%;
+}
+
+.content {
+  margin-top: 150px;
+  transition: 500ms;
+}
+
+.content.active-state {
+  margin-top: 50px;
+  transform: 500ms;
 }
 
 .logo{
-  width: 95%;
+  width: 100%;
   margin: auto;
   display: block;
   padding-bottom: 50px;
 }
 
-.wrapper .search-input{
-  background: #fff;
+.wrapper{
+  position: 'relative';
   width: 100%;
+  height: 75px;
+}
+
+.wrapper .search-input{
+  z-index: 2;
+  background: #fff; 
   border-radius: 27.5px;
-  position: relative;
+  width: 90%;
+  position: absolute; 
+  left: 50%;
+  transform: translate(-50%, 0);
   box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.12);
 }
 .search-input input{
@@ -81,7 +106,69 @@ body{
   line-height: 55px;
   font-size: 20px;
   color: #1bb954;
+}
+
+.card {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background-color: #202020;
+  transition: 500ms;
   cursor: pointer;
+  border-radius: 8px;
+  position: 'relative';
+}
+
+.card:hover {
+  background-color: #303030;
+}
+
+.tag-wrapper {
+  padding-top: 20px;
+  display: block;
+  margin: auto;
+  width: 90%;
+  min-height: 100px;
+}
+
+.cover-art {
+  width: 150px;
+  border-radius: 5px;
+}
+
+.song-title { 
+  margin-top: 20px;
+}
+
+.artists {
+  color: #bbbbbb;
+}
+
+.artist-name {
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+.artist-name:hover{
+  text-decoration: underline;
+}
+
+.play {
+  opacity: 0;
+  width: 60px;
+  position: absolute;
+  right: 20px;
+  bottom: 0px;
+  transition: 300ms;
+}
+
+.card:hover > .play {
+  opacity: 1;
+  bottom: 20px;
+}
+
+.play:hover {
+  transform: scale(1.08)
 }
 
 /* .full-body-container{
