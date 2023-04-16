@@ -60,11 +60,55 @@ def sql_search(episode):
     df1 = pd.read_csv('p04emotionsocial.csv')
     query = episode.lower()
     rows_jac = df.loc[df['Unnamed: 0'].str.lower() == query]
-    rows_tags = df.loc[df['Unnamed: 0'].str.lower() == query] #tags for songs in album
+    rows_tags = df1.loc[df1['Unnamed: 0'].str.lower() == query] #tags for songs in album
     size = len(rows_jac)
     for i in range(0, len(rows_jac)):
-        for j in range(0, len(rows_jac[0])):
-
+        for j in range(1, 301):
+            cur_jac = rows_jac.iloc[i, j]
+            modifier = 1
+            if type(rows_tags.iloc[i, 1]) == float:
+                emote1 = []
+            else:
+                emote1 = eval(rows_tags.iloc[i, 1])
+            if type(rows_tags.iloc[i, 2]) == float:
+                social1 = []
+            else:
+                social1 = eval(rows_tags.iloc[i, 2])
+            if type(df1.iloc[j - 1, 1]) == float:
+                emote2 = []
+            else:
+                emote2 = eval(df1.iloc[j - 1, 1])
+            if type(df1.iloc[j - 1, 2]) == float:
+                social2 = []
+            else:
+                social2 = eval(df1.iloc[j - 1, 2])
+            emote1 = dict(emote1)
+            emote2 = dict(emote2)
+            social1 = dict(social1)
+            social2 = dict(social2)
+            for val in emote2:
+                if val in emote1:
+                    modifier += .1
+                    dif = abs(emote1[val] - emote2[val])
+                    modifier += .1 * (1 - .01 * dif)
+            for val in social2:
+                if val in social1:
+                    modifier += .1
+                    dif = abs(social1[val] - social2[val])
+                    modifier += .1 * (1 - .01 * dif)
+            rows_jac.iloc[i, j] = cur_jac * modifier
+    tmpSum = rows_jac.sum(numeric_only=True, axis=0)
+    tmpAvg = tmpSum.divide(size)
+    tmpAns = tmpAvg.to_numpy()
+    songs = df.columns.tolist()[1::]
+    tples = zip(tmpAns, songs)
+    tples = sorted(tples, reverse=True)
+    ans = [song for (_, song) in tples[0:10]]
+    print(ans)
+    jsonAns = []
+    for i in ans:
+        jsonAns.append(dict(Title = i))
+    return jsonAns
 
 
     # return json.dumps([dict(zip(keys, i)) for i in ans])
