@@ -14,7 +14,7 @@ os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..", os.curdir))
 # Don't worry about the deployment credentials, those are fixed
 # You can use a different DB name if you want to
 MYSQL_USER = "root"
-MYSQL_USER_PASSWORD = "MayankRao16Cornell.edu"
+MYSQL_USER_PASSWORD = "R9sU85ujC"
 MYSQL_PORT = 3306
 MYSQL_DATABASE = "kardashiandb"
 
@@ -37,21 +37,36 @@ def sql_search(episode):
     # keys = ["Artist", "Title", "Album", "Year", "Date", "Lyric", "Genre"]
     # data = mysql_engine.query_selector(query_sql)
     # return json.dumps([dict(zip(keys, i)) for i in data])
-    df = pd.read_csv('jaccard1.csv') 
+
+#P03:
+    # df = pd.read_csv('jaccard1.csv') 
+    # query = episode.lower()
+    # tmp = df.loc[df['Unnamed: 0'].str.lower() == query] #creates new dataframe of only rows of songs inside album specified by query
+    # size = len(tmp)
+    # tmpSum = tmp.sum(numeric_only=True, axis=0) #gets sum of all columns 
+    # tmpAvg = tmpSum.divide(size) #gets avg of all columns
+    # tmpAns = tmpAvg.to_numpy()
+    # songs = df.columns.tolist()[1::]
+    # tples = zip(tmpAns, songs) #tple list (jac val, song name)
+    # tples = sorted(tples, reverse=True)
+    # ans = [song for (_, song) in tples[0:10]] #list of only top 5 songs
+    # jsonAns = []
+    # for i in ans:
+    #     jsonAns.append(dict(Title = i))
+    # return jsonAns
+
+#P04:
+    df = pd.read_csv('p04jaccard.csv')
+    df1 = pd.read_csv('p04emotionsocial.csv')
     query = episode.lower()
-    tmp = df.loc[df['Unnamed: 0'].str.lower() == query] #creates new dataframe of only rows of songs inside album specified by query
-    size = len(tmp)
-    tmpSum = tmp.sum(numeric_only=True, axis=0) #gets sum of all columns 
-    tmpAvg = tmpSum.divide(size) #gets avg of all columns
-    tmpAns = tmpAvg.to_numpy()
-    songs = df.columns.tolist()[1::]
-    tples = zip(tmpAns, songs) #tple list (jac val, song name)
-    tples = sorted(tples, reverse=True)
-    ans = [song for (_, song) in tples[0:10]] #list of only top 5 songs
-    jsonAns = []
-    for i in ans:
-        jsonAns.append(dict(Title = i))
-    return jsonAns
+    rows_jac = df.loc[df['Unnamed: 0'].str.lower() == query]
+    rows_tags = df.loc[df['Unnamed: 0'].str.lower() == query] #tags for songs in album
+    size = len(rows_jac)
+    for i in range(0, len(rows_jac)):
+        for j in range(0, len(rows_jac[0])):
+
+
+
     # return json.dumps([dict(zip(keys, i)) for i in ans])
 
 
@@ -67,4 +82,4 @@ def episodes_search():
     return sql_search(text)
 
 
-# app.run(debug=True)
+app.run(debug=True)
