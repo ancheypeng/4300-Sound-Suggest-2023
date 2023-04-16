@@ -19,7 +19,6 @@ a:hover{
 }
 
 body{
-  color: white;
   background: #121212;
   width: 100%;
 }
@@ -39,11 +38,15 @@ body{
   margin: auto;
   display: block;
   padding-bottom: 50px;
+  transition: 500ms;
+}
+
+.content.active-state .logo {
+  width: 90%;
 }
 
 .wrapper{
   position: 'relative';
-  width: 100%;
   height: 75px;
 }
 
@@ -51,7 +54,7 @@ body{
   z-index: 2;
   background: #fff; 
   border-radius: 27.5px;
-  width: 90%;
+  width: 80%;
   position: absolute; 
   left: 50%;
   transform: translate(-50%, 0);
@@ -108,7 +111,17 @@ body{
   color: #1bb954;
 }
 
+.tag-wrapper {
+  padding-top: 20px;
+  display: block;
+  margin: auto;
+  width: 80%;
+  min-height: 120px;
+}
+
 .card {
+  margin-top: 20px;
+  color: white;
   display: block;
   width: 100%;
   padding: 15px;
@@ -117,18 +130,18 @@ body{
   cursor: pointer;
   border-radius: 8px;
   position: 'relative';
+
+  animation: fadein 500ms;
+  -moz-animation: fadein 500ms;
+  /* Firefox */
+  -webkit-animation: fadein 500ms;
+  /* Safari and Chrome */
+  -o-animation: fadein 500ms;
+  /* Opera */
 }
 
 .card:hover {
   background-color: #303030;
-}
-
-.tag-wrapper {
-  padding-top: 20px;
-  display: block;
-  margin: auto;
-  width: 90%;
-  min-height: 100px;
 }
 
 .cover-art {
@@ -157,18 +170,55 @@ body{
   opacity: 0;
   width: 60px;
   position: absolute;
-  right: 20px;
+  right: 30px;
   bottom: 0px;
   transition: 300ms;
+  z-index: 2;
 }
 
 .card:hover > .play {
   opacity: 1;
-  bottom: 20px;
+  bottom: 30px;
 }
 
 .play:hover {
   transform: scale(1.08)
+}
+
+@keyframes fadein {
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-moz-keyframes fadein {
+  /* Firefox */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-o-keyframes fadein {
+  /* Opera */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity: 1;
+  }
 }
 
 /* .full-body-container{

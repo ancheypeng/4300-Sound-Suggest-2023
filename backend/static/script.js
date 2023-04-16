@@ -9,6 +9,7 @@ let webLink;
 // if user press any key and release
 inputBox.onkeyup = (e) => {
   if (e.keyCode === 13) {
+    searchWrapper.classList.remove('active');
     query();
     return;
   }
