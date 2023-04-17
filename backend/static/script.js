@@ -126,6 +126,15 @@ $('#social-tags').select2({
   closeOnSelect: false,
 });
 
+//populate tags
+fetch('/tags')
+  .then((response) => response.json())
+  .then((data) =>
+    data.forEach((good_tag) =>
+      $('#social-tags').append(`<option>${good_tag}</option>`)
+    )
+  );
+
 // suggestions.forEach((song) => {
 //   let tempOption = document.createElement('option');
 //   tempOption.innerHTML = song;

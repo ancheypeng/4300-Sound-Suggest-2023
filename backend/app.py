@@ -43,6 +43,9 @@ with open('../dataset/jsons/song_index_to_song_title_and_artist.json', 'r') as f
 with open('../dataset/jsons/song_index_to_tags.json', 'r') as fp:
     song_index_to_tags = json.load(fp)
 
+with open('../dataset/jsons/good_tags.json', 'r') as fp:
+    good_tags = json.load(fp)
+
 
 def sql_search(episode):
     # query_sql = f"""SELECT * FROM mytable WHERE LOWER( Album ) LIKE '%%{episode.lower()}%%' limit 10"""
@@ -76,6 +79,11 @@ def home():
 @app.route("/albums")
 def get_albums():
     return list(album_to_songs_jaccard_truncated.keys())
+
+
+@app.route("/tags")
+def get_tags():
+    return sorted(good_tags)
 
 
 @app.route("/songs")
