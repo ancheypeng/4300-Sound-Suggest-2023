@@ -73,7 +73,13 @@ function query() {
       link: 'https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4',
     },
   ];
-  $('.results').append(card(song, link, thumbnail, artists));
+
+  for (let i = 0; i < 5; i++) {
+    setTimeout(
+      () => $('.results').append(card(song, link, thumbnail, artists)),
+      i * 150
+    );
+  }
 }
 
 $('#social-tags').select2({
@@ -130,12 +136,13 @@ function card(song, link, thumbnail, artists) {
         </p>
       </div>
     </div>
-    <img class="play" src="static/images/play.svg" alt="Play Button" />
     <a
       href="${link}"
       target="_blank"
       class="stretched-link"
-    ></a>
+    >
+      <img class="play" src="static/images/play.svg" alt="Play Button" />
+    </a>
   </div>`;
 
   return temp;
