@@ -14,7 +14,7 @@ def retrieve_spotify_data_for_frontend(query_song: str, query_artist: str):
     spotify_result_dict = dict()
     # print(query_song, query_artist)
     retrieved_results = spotify_object.search(
-        q="artist:" + query_artist + " track:" + query_song, limit=1, type="track")
+        q="artist:" + query_artist + " track:" + query_song, limit=1, market = "US", type="track")
 
     if not retrieved_results['tracks']['items']:
         return None
