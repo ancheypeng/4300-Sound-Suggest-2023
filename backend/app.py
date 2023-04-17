@@ -63,7 +63,7 @@ def sql_search(episode):
     rows_tags = df1.loc[df1['Unnamed: 0'].str.lower() == query] #tags for songs in album
     size = len(rows_jac)
     for i in range(0, len(rows_jac)):
-        for j in range(1, 301):
+        for j in range(1, 601):
             cur_jac = rows_jac.iloc[i, j]
             modifier = 1
             if type(rows_tags.iloc[i, 1]) == float:
