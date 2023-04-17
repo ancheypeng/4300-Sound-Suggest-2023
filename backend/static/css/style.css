@@ -153,6 +153,7 @@ body{
 
 .song-title { 
   margin-top: 20px;
+  word-wrap: break-word;
 }
 
 .artists {

@@ -6,6 +6,8 @@ from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
 import numpy as np
 
+from helpers.spotify_ui import *
+
 # ROOT_PATH for linking with all your files.
 # Feel free to use a config.py or settings.py with a global export variable
 os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..", os.curdir))
@@ -95,17 +97,60 @@ def songs_search():
             song_tag = s[0]
             weight = s[1]
             if song_tag in tags:
-                print("INCREASING SCORE OF", song_index,
-                      "to", jacc_score * 2 * (weight / 100))
+
                 jacc_score *= 2 * (weight / 100)
+
+                print("INCREASING SCORE OF", song_index,
+                      "to", jacc_score)
 
         jaccard_songs[i] = [song_index, jacc_score]
 
     jaccard_songs = sorted(jaccard_songs, reverse=True, key=lambda x: x[1])
 
-    top_10 = jaccard_songs[: 10]
+    # get the song indexes, ignoring the jaccard scores
+    song_indexes = [js[0] for js in jaccard_songs]
+
+    # get song and artist from the indexes
+    songs = [song_index_to_song_title_and_artist[str(
+        song_index)] for song_index in song_indexes]
+
+    # get spotify data for the songs
+    spotify_data = []
+
+    for song in songs:
+        title = song['title']
+        artist = song['artist']
+        data = retrieve_spotify_data_for_frontend(title, artist)
+        if (data):
+            spotify_data.append(
+                retrieve_spotify_data_for_frontend(title, artist))
+
+        if (len(spotify_data) >= 10):
+            break
+
+    # return spotify data for up to 10 songs that had successful spotify queries
+    return list(spotify_data[:10])
+
+    # # get the top 10 song indexes, ignoring the jaccard scores
+    # top_10_song_indexes = [js[0] for js in jaccard_songs[: 10]]
+
+    # # get song and artist for the 10 songs
+    # top_10_songs = [song_index_to_song_title_and_artist[str(
+    #     song_index)] for song_index in top_10_song_indexes]
+
+    # # get spotify data for top 10 songs
+    # spotify_data = []
+
+    # for song in top_10_songs:
+    #     title = song['title']
+    #     artist = song['artist']
+    #     data = retrieve_spotify_data_for_frontend(title, artist)
+    #     if (data):
+    #         spotify_data.append(
+    #             retrieve_spotify_data_for_frontend(title, artist))
+
     # print(top_10)
-    return list(top_10)
+    # return list(top_10_songs)
 
 
 @ app.route("/episodes")

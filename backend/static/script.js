@@ -56,39 +56,63 @@ function showSuggestions(list) {
   suggBox.innerHTML = listData;
 }
 
-function query() {
-  $('.content').addClass('active-state');
-  console.log('Querying...');
-  song = 'Life Is Good (feat. Drake)';
-  link = 'https://open.spotify.com/track/5yY9lUy8nbvjM1Uyo1Uqoc';
-  thumbnail =
-    'https://i.scdn.co/image/ab67616d0000b2738a01c7b77a34378a62f46402';
-  artists = [
-    {
-      name: 'Future',
-      link: 'https://open.spotify.com/artist/1RyvyyTE3xzB2ZywiAwp0i',
-    },
-    {
-      name: 'Drake',
-      link: 'https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4',
-    },
-  ];
+// if user unfocuses from search box
+inputBox.addEventListener('focusout', (e) =>
+  setTimeout(() => searchWrapper.classList.remove('active'), 200)
+);
 
-  for (let i = 0; i < 5; i++) {
-    setTimeout(
-      () => $('.results').append(card(song, link, thumbnail, artists)),
-      i * 150
-    );
-  }
+function query() {
+  searchWrapper.classList.remove('active');
+  $('.content').addClass('active-state');
+  $('.results').empty();
+  console.log('Querying...');
+  // song = 'Life Is Good (feat. Drake)';
+  // link = 'https://open.spotify.com/track/5yY9lUy8nbvjM1Uyo1Uqoc';
+  // thumbnail =
+  //   'https://i.scdn.co/image/ab67616d0000b2738a01c7b77a34378a62f46402';
+  // artists = [
+  //   {
+  //     name: 'Future',
+  //     link: 'https://open.spotify.com/artist/1RyvyyTE3xzB2ZywiAwp0i',
+  //   },
+  //   {
+  //     name: 'Drake',
+  //     link: 'https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4',
+  //   },
+  // ];
+
+  // for (let i = 0; i < 5; i++) {
+  //   setTimeout(
+  //     () => $('.results').append(card(song, link, thumbnail, artists)),
+  //     i * 150
+  //   );
+  // }
 
   let searchParams = new URLSearchParams();
   searchParams.append('album', inputBox.value);
-  searchParams.append('tags', 'ape');
-  searchParams.append('tags', 'pop');
+  $('#social-tags')
+    .select2('val')
+    .forEach((tag) => searchParams.append('tags', tag.toLocaleLowerCase()));
 
   fetch('/songs?' + searchParams.toString())
     .then((response) => response.json())
-    .then((data) => console.log(data));
+    .then((data) => {
+      console.log(data);
+      data.forEach((value, index) =>
+        setTimeout(
+          () =>
+            $('.results').append(
+              card(
+                value['song'],
+                value['link'],
+                value['thumbnail'],
+                value['artists']
+              )
+            ),
+          index * 150
+        )
+      );
+    });
 }
 
 $('#social-tags').select2({
@@ -131,14 +155,14 @@ function card(song, link, thumbnail, artists) {
   let temp = `
   <div class="card">
     <div class="row g-0">
-      <div class="col-md-auto">
+      <div class="col col-md-4">
         <img
           class="cover-art"
           src="${thumbnail}"
           alt="Cover Art"
         />
       </div>
-      <div class="col-md-auto">
+      <div class="col col-md-8">
         <h5 class="song-title">${song}</h5>
         <p class="artists">
         ${artistsHTML}
