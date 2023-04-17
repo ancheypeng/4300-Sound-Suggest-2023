@@ -32,6 +32,15 @@ CORS(app)
 # but if you decide to use SQLAlchemy ORM framework,
 # there's a much better and cleaner way to do this
 
+with open('../dataset/jsons/album_to_songs_jaccard_truncated.json', 'r') as fp:
+    album_to_songs_jaccard_truncated = json.load(fp)
+
+with open('../dataset/jsons/song_index_to_song_title_and_artist.json', 'r') as fp:
+    song_index_to_song_title_and_artist = json.load(fp)
+
+with open('../dataset/jsons/song_index_to_tags.json', 'r') as fp:
+    song_index_to_tags = json.load(fp)
+
 
 def sql_search(episode):
     # query_sql = f"""SELECT * FROM mytable WHERE LOWER( Album ) LIKE '%%{episode.lower()}%%' limit 10"""
@@ -62,7 +71,44 @@ def home():
     return render_template('base.html', title="sample html")
 
 
-@app.route("/episodes")
+@app.route("/albums")
+def get_albums():
+    return list(album_to_songs_jaccard_truncated.keys())
+
+
+@app.route("/songs")
+def songs_search():
+    album = request.args.get("album")
+    tags = set(request.args.getlist("tags"))
+    print(tags)
+
+    jaccard_songs = album_to_songs_jaccard_truncated[album]
+
+    # adjust songs by tags
+    for i, value in enumerate(jaccard_songs):
+        song_index = value[0]
+        jacc_score = value[1]
+
+        song_tags = song_index_to_tags[str(song_index)] if str(
+            song_index) in song_index_to_tags else []
+        for s in song_tags:
+            song_tag = s[0]
+            weight = s[1]
+            if song_tag in tags:
+                print("INCREASING SCORE OF", song_index,
+                      "to", jacc_score * 2 * (weight / 100))
+                jacc_score *= 2 * (weight / 100)
+
+        jaccard_songs[i] = [song_index, jacc_score]
+
+    jaccard_songs = sorted(jaccard_songs, reverse=True, key=lambda x: x[1])
+
+    top_10 = jaccard_songs[: 10]
+    # print(top_10)
+    return list(top_10)
+
+
+@ app.route("/episodes")
 def episodes_search():
     text = request.args.get("title")
     return sql_search(text)

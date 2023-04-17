@@ -18,7 +18,7 @@ inputBox.onkeyup = (e) => {
 
   let emptyArray = [];
   if (userData) {
-    emptyArray = suggestions.filter((data) => {
+    emptyArray = albums.filter((data) => {
       //filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
       return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
     });
@@ -80,6 +80,15 @@ function query() {
       i * 150
     );
   }
+
+  let searchParams = new URLSearchParams();
+  searchParams.append('album', inputBox.value);
+  searchParams.append('tags', 'ape');
+  searchParams.append('tags', 'pop');
+
+  fetch('/songs?' + searchParams.toString())
+    .then((response) => response.json())
+    .then((data) => console.log(data));
 }
 
 $('#social-tags').select2({
