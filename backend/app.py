@@ -34,16 +34,16 @@ CORS(app)
 # but if you decide to use SQLAlchemy ORM framework,
 # there's a much better and cleaner way to do this
 
-with open('../dataset/jsons/album_to_songs_jaccard_truncated.json', 'r') as fp:
+with open('jsons/album_to_songs_jaccard_truncated.json', 'r') as fp:
     album_to_songs_jaccard_truncated = json.load(fp)
 
-with open('../dataset/jsons/song_index_to_song_title_and_artist.json', 'r') as fp:
+with open('jsons/song_index_to_song_title_and_artist.json', 'r') as fp:
     song_index_to_song_title_and_artist = json.load(fp)
 
-with open('../dataset/jsons/song_index_to_tags.json', 'r') as fp:
+with open('jsons/song_index_to_tags.json', 'r') as fp:
     song_index_to_tags = json.load(fp)
 
-with open('../dataset/jsons/good_tags.json', 'r') as fp:
+with open('jsons/good_tags.json', 'r') as fp:
     good_tags = json.load(fp)
 
 
