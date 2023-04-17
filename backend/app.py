@@ -90,6 +90,7 @@ def get_tags():
 def songs_search():
     album = request.args.get("album")
     tags = set(request.args.getlist("tags"))
+    print(tags)
 
     jaccard_songs = album_to_songs_jaccard_truncated[album]
 
