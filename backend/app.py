@@ -90,7 +90,6 @@ def get_tags():
 def songs_search():
     album = request.args.get("album")
     tags = set(request.args.getlist("tags"))
-    print(tags)
 
     jaccard_songs = album_to_songs_jaccard_truncated[album]
 
@@ -110,6 +109,13 @@ def songs_search():
 
                 print("INCREASING SCORE OF", song_index,
                       "to", jacc_score)
+
+        # increase score if artist matches
+        album_artist = album.split(" - ")[1]
+        song_artist = song_index_to_song_title_and_artist[str(
+            song_index)]['artist']
+        if album_artist == song_artist:
+            jacc_score *= 1.3
 
         jaccard_songs[i] = [song_index, jacc_score]
 
