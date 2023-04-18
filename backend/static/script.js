@@ -20,7 +20,7 @@ inputBox.onkeyup = (e) => {
   if (userData) {
     emptyArray = albums.filter((data) => {
       //filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
-      return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
+      return data.toLocaleLowerCase().includes(userData.toLocaleLowerCase());
     });
     emptyArray = emptyArray.map((data) => {
       // passing return data inside li tag
@@ -65,6 +65,10 @@ function query() {
   searchWrapper.classList.remove('active');
   $('.content').addClass('active-state');
   $('.results').empty();
+  //show spinner when query starts
+  $('.results').append(
+    `<div class="text-center"><div class='spinner-border text-primary m-5' role='status'></div></div>`
+  );
   console.log('Querying...');
   // song = 'Life Is Good (feat. Drake)';
   // link = 'https://open.spotify.com/track/5yY9lUy8nbvjM1Uyo1Uqoc';
@@ -97,6 +101,9 @@ function query() {
   fetch('/songs?' + searchParams.toString())
     .then((response) => response.json())
     .then((data) => {
+      // remove spinner
+      $('.results').empty();
+
       console.log(data);
       data.forEach((value, index) =>
         setTimeout(
@@ -112,6 +119,10 @@ function query() {
           index * 150
         )
       );
+    })
+    .catch((error) => {
+      $('.results').empty();
+      $('.results').append(`<h4 class="error">Invalid Input</h4>`);
     });
 }
 

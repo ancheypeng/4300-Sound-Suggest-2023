@@ -137,6 +137,11 @@ body{
   min-height: 120px;
 }
 
+.error {
+  color: white;
+  text-align: center;
+}
+
 .card {
   margin-top: 20px;
   color: white;
