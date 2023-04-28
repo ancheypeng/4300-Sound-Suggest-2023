@@ -4,7 +4,8 @@ from flask import Flask, render_template, request
 from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
-import numpy as np
+from numpy import dot
+from numpy.linalg import norm
 
 from helpers.spotify_ui import *
 
@@ -46,6 +47,12 @@ with open('jsons/song_index_to_tags.json', 'r') as fp:
 with open('jsons/good_tags.json', 'r') as fp:
     good_tags = json.load(fp)
 
+with open('jsons/lyrics_USr.json', 'r') as fp:
+    lyrics_USr = json.load(fp)
+
+with open('jsons/albums_to_lyrics_USr.json', 'r') as fp:
+    albums_to_lyrics_USr = json.load(fp)
+
 
 def sql_search(episode):
     # query_sql = f"""SELECT * FROM mytable WHERE LOWER( Album ) LIKE '%%{episode.lower()}%%' limit 10"""
@@ -71,6 +78,10 @@ def sql_search(episode):
     # return json.dumps([dict(zip(keys, i)) for i in ans])
 
 
+def cossim(a, b):
+    return dot(a, b) / (norm(a) * norm(b))
+
+
 @app.route("/")
 def home():
     return render_template('base.html', title="sample html")
@@ -90,44 +101,39 @@ def get_tags():
 def songs_search():
     album = request.args.get("album")
     tags = set(request.args.getlist("tags"))
-    print(tags)
 
-    jaccard_songs = album_to_songs_jaccard_truncated[album]
+    album_lyric_vec = albums_to_lyrics_USr[album]
 
-    # adjust songs by tags
-    for i, value in enumerate(jaccard_songs):
-        song_index = value[0]
-        jacc_score = value[1]
+    # stores tuples of (song idx, cossim score)
+    cossim_scores = []
+
+    for song_index, vec in enumerate(lyrics_USr):
+        # print("cossim calculating...", song_index)
+        score = cossim(album_lyric_vec, vec)
 
         song_tags = song_index_to_tags[str(song_index)] if str(
             song_index) in song_index_to_tags else []
+
         for s in song_tags:
             song_tag = s[0]
             weight = s[1]
             if song_tag in tags:
 
-                jacc_score *= 2 * (weight / 100)
+                score *= 2 * (weight / 100)
 
                 print("INCREASING SCORE OF", song_index,
-                      "to", jacc_score)
+                      "to", score)
 
-        # increase score if artist matches
-        album_artist = album.split(" - ")[1]
-        song_artist = song_index_to_song_title_and_artist[str(
-            song_index)]['artist']
-        if album_artist == song_artist:
-            jacc_score *= 1.3
+        cossim_scores.append((song_index, score))
 
-        jaccard_songs[i] = [song_index, jacc_score]
+    cossim_scores = sorted(cossim_scores, reverse=True, key=lambda x: x[1])
 
-    jaccard_songs = sorted(jaccard_songs, reverse=True, key=lambda x: x[1])
-
-    # get the song indexes, ignoring the jaccard scores
-    song_indexes = [js[0] for js in jaccard_songs]
+    # song indexes sorted by cossim score
+    top_songs = [js[0] for js in cossim_scores]
 
     # get song and artist from the indexes
     songs = [song_index_to_song_title_and_artist[str(
-        song_index)] for song_index in song_indexes]
+        song_index)] for song_index in top_songs]
 
     # get spotify data for the songs
     spotify_data = []
@@ -146,26 +152,66 @@ def songs_search():
     # return spotify data for up to 10 songs that had successful spotify queries
     return list(spotify_data[:10])
 
-    # # get the top 10 song indexes, ignoring the jaccard scores
-    # top_10_song_indexes = [js[0] for js in jaccard_songs[: 10]]
 
-    # # get song and artist for the 10 songs
-    # top_10_songs = [song_index_to_song_title_and_artist[str(
-    #     song_index)] for song_index in top_10_song_indexes]
+# @app.route("/oldsongs")
+# def songs_search():
+#     album = request.args.get("album")
+#     tags = set(request.args.getlist("tags"))
+#     print(tags)
 
-    # # get spotify data for top 10 songs
-    # spotify_data = []
+#     jaccard_songs = album_to_songs_jaccard_truncated[album]
 
-    # for song in top_10_songs:
-    #     title = song['title']
-    #     artist = song['artist']
-    #     data = retrieve_spotify_data_for_frontend(title, artist)
-    #     if (data):
-    #         spotify_data.append(
-    #             retrieve_spotify_data_for_frontend(title, artist))
+#     # adjust songs by tags
+#     for i, value in enumerate(jaccard_songs):
+#         song_index = value[0]
+#         jacc_score = value[1]
 
-    # print(top_10)
-    # return list(top_10_songs)
+#         song_tags = song_index_to_tags[str(song_index)] if str(
+#             song_index) in song_index_to_tags else []
+#         for s in song_tags:
+#             song_tag = s[0]
+#             weight = s[1]
+#             if song_tag in tags:
+
+#                 jacc_score *= 2 * (weight / 100)
+
+#                 print("INCREASING SCORE OF", song_index,
+#                       "to", jacc_score)
+
+#         # increase score if artist matches
+#         album_artist = album.split(" - ")[1]
+#         song_artist = song_index_to_song_title_and_artist[str(
+#             song_index)]['artist']
+#         if album_artist == song_artist:
+#             jacc_score *= 1.3
+
+#         jaccard_songs[i] = [song_index, jacc_score]
+
+#     jaccard_songs = sorted(jaccard_songs, reverse=True, key=lambda x: x[1])
+
+#     # get the song indexes, ignoring the jaccard scores
+#     song_indexes = [js[0] for js in jaccard_songs]
+
+#     # get song and artist from the indexes
+#     songs = [song_index_to_song_title_and_artist[str(
+#         song_index)] for song_index in song_indexes]
+
+#     # get spotify data for the songs
+#     spotify_data = []
+
+#     for song in songs:
+#         title = song['title']
+#         artist = song['artist']
+#         data = retrieve_spotify_data_for_frontend(title, artist)
+#         if (data):
+#             spotify_data.append(
+#                 retrieve_spotify_data_for_frontend(title, artist))
+
+#         if (len(spotify_data) >= 10):
+#             break
+
+#     # return spotify data for up to 10 songs that had successful spotify queries
+#     return list(spotify_data[:10])
 
 
 @ app.route("/episodes")

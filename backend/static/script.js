@@ -6,6 +6,22 @@ const icon = searchWrapper.querySelector('.icon');
 let linkTag = searchWrapper.querySelector('a');
 let webLink;
 
+// global event listener for enter key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    searchWrapper.classList.remove('active');
+    query();
+    return;
+  }
+});
+
+// search icon onclick
+icon.onclick = () => {
+  searchWrapper.classList.remove('active');
+  query();
+  return;
+};
+
 // if user press any key and release
 inputBox.onkeyup = (e) => {
   if (e.keyCode === 13) {
