@@ -11,25 +11,24 @@ from numpy.linalg import norm
 from helpers.spotify_ui import *
 
 from sklearn.manifold import TSNE
-import plotly.express as px
 
 # ROOT_PATH for linking with all your files.
 # Feel free to use a config.py or settings.py with a global export variable
 os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..", os.curdir))
 
-# These are the DB credentials for your OWN MySQL
-# Don't worry about the deployment credentials, those are fixed
-# You can use a different DB name if you want to
-MYSQL_USER = "root"
-MYSQL_USER_PASSWORD = "4300database"
-MYSQL_PORT = 3306
-MYSQL_DATABASE = "kardashiandb"
+# # These are the DB credentials for your OWN MySQL
+# # Don't worry about the deployment credentials, those are fixed
+# # You can use a different DB name if you want to
+# MYSQL_USER = "root"
+# MYSQL_USER_PASSWORD = "4300database"
+# MYSQL_PORT = 3306
+# MYSQL_DATABASE = "kardashiandb"
 
-mysql_engine = MySQLDatabaseHandler(
-    MYSQL_USER, MYSQL_USER_PASSWORD, MYSQL_PORT, MYSQL_DATABASE)
+# mysql_engine = MySQLDatabaseHandler(
+#     MYSQL_USER, MYSQL_USER_PASSWORD, MYSQL_PORT, MYSQL_DATABASE)
 
-# Path to init.sql file. This file can be replaced with your own file for testing on localhost, but do NOT move the init.sql file
-mysql_engine.load_file_into_db()
+# # Path to init.sql file. This file can be replaced with your own file for testing on localhost, but do NOT move the init.sql file
+# mysql_engine.load_file_into_db()
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -58,7 +57,8 @@ with open('jsons/albums_to_song_indexes.json', 'r') as fp:
     albums_to_song_indexes = json.load(fp)
 
 # best: perplexity=20, learning_rate=15
-tsne = TSNE(n_components=3, random_state=0, perplexity=20, learning_rate=15)
+tsne = TSNE(n_components=3, random_state=0,
+            perplexity=20, learning_rate=20)
 
 
 def cossim(a, b):
@@ -125,8 +125,8 @@ def songs_search():
     cossim_scores = sorted(cossim_scores, reverse=True, key=lambda x: x[1])
 
     # print top scores for testing
-    for i in range(10):
-        print(cossim_scores[i])
+    # for i in range(10):
+    #     print(cossim_scores[i])
 
     # song indexes sorted by cossim score
     top_songs = [js[0] for js in cossim_scores]
@@ -154,13 +154,13 @@ def songs_search():
             spotify_data.append(
                 retrieve_spotify_data_for_frontend(title, artist))
 
-            visualization_mat.append(lyric_svd_embeddings[idx])
+            visualization_mat.append(lyric_svd_embeddings[song_index])
 
         if (len(spotify_data) >= 10):
             break
 
     for i in range(len(top_songs)):
-        if i % 200 == 0 and not i in top_songs[:10] and i not in album_song_indexes:
+        if i % 300 == 0 and not i in top_songs[:10] and i not in album_song_indexes:
             visualization_mat.append(lyric_svd_embeddings[i])
 
     visualization_mat = np.array(visualization_mat)

@@ -44,11 +44,13 @@ function createVisualization(data) {
     type: 'scatter3d',
   };
 
+  const average = (array) => array.reduce((a, b) => a + b) / array.length;
+
   var albumCentroid = {
     name: 'Album Centroid',
-    x: [data['album_centroid'][0]],
-    y: [data['album_centroid'][1]],
-    z: [data['album_centroid'][2]],
+    x: [average(albumSongs.x)],
+    y: [average(albumSongs.y)],
+    z: [average(albumSongs.z)],
     mode: 'markers',
     marker: {
       color: 'white',
@@ -80,7 +82,7 @@ function createVisualization(data) {
     hoverinfo: 'skip',
   };
 
-  var data = [suggestedSongs, albumSongs, randomSongs];
+  var data = [suggestedSongs, albumSongs, albumCentroid, randomSongs];
   var layout = {
     margin: {
       l: 20,
