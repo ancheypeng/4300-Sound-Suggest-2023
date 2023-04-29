@@ -4,9 +4,8 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Figtree', sans-serif;
+  
 }
-
-
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -32,11 +31,20 @@ a:hover{
 body{
   background: #121212;
   width: 100%;
+  overflow-x: hidden;
+}
+
+.h100 {
+  height: 100%;
 }
 
 .content {
-  margin-top: 150px;
+  /* margin-top: 150px; */
   transition: 500ms;
+  max-width: 1500px;
+  margin: 150px auto auto auto;
+  min-height: calc(100vh - 150px);
+  height: 1px
 }
 
 .content.active-state {
@@ -144,10 +152,11 @@ body{
 }
 
 .card {
-  margin-top: 20px;
+  margin: 20px auto auto auto;
   color: white;
   display: block;
   width: 100%;
+  max-width: 550px;
   padding: 15px;
   background-color: #202020;
   transition: 500ms;
@@ -209,6 +218,38 @@ body{
 .play:hover {
   transform: scale(1.08)
 }
+
+#tsne {
+  position: sticky;
+  height: 450px;
+  top: calc(45vh - 225px);
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: 500ms;
+
+  animation: fadein 500ms;
+  -moz-animation: fadein 500ms;
+  /* Firefox */
+  -webkit-animation: fadein 500ms;
+  /* Safari and Chrome */
+  -o-animation: fadein 500ms;
+  /* Opera */
+}
+
+#tsne > * {
+  border-radius: 10px;
+  transition: 500ms;
+
+  animation: fadein 500ms;
+  -moz-animation: fadein 500ms;
+  /* Firefox */
+  -webkit-animation: fadein 500ms;
+  /* Safari and Chrome */
+  -o-animation: fadein 500ms;
+  /* Opera */
+}
+
 
 @keyframes fadein {
   from {
