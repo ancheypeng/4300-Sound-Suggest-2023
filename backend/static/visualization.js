@@ -73,9 +73,25 @@ function createVisualization(data) {
     font: {
       size: 10,
       color: '#aaaaaa',
+      family: 'Figtree, sans-serif',
     },
     plot_bgcolor: '#1a1a1a',
     paper_bgcolor: '#1a1a1a',
+    showlegend: true,
+    legend: {
+      x: 1,
+      xanchor: 'right',
+      y: 1,
+    },
+    title: {
+      text: 'Lyrical Similarity',
+      font: {
+        size: 24,
+      },
+      xref: 'paper',
+      yref: 'paper',
+      automargin: true,
+    },
   };
   Plotly.newPlot('tsne', data, layout);
 }

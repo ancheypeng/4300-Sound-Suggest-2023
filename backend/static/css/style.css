@@ -6,8 +6,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-
-
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -144,10 +142,11 @@ body{
 }
 
 .card {
-  margin-top: 20px;
+  margin: 20px auto auto auto;
   color: white;
   display: block;
   width: 100%;
+  max-width: 550px;
   padding: 15px;
   background-color: #202020;
   transition: 500ms;
@@ -211,9 +210,11 @@ body{
 }
 
 #tsne {
+  position: sticky;
+  top: 100px;
+  margin-top: 20px;
   border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 50px;
   transition: 500ms;
 
   animation: fadein 500ms;
@@ -226,6 +227,7 @@ body{
 }
 
 #tsne > * {
+  border-radius: 10px;
   transition: 500ms;
 
   animation: fadein 500ms;
@@ -236,6 +238,7 @@ body{
   -o-animation: fadein 500ms;
   /* Opera */
 }
+
 
 @keyframes fadein {
   from {
