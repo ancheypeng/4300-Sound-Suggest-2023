@@ -34,9 +34,17 @@ body{
   overflow-x: hidden;
 }
 
+.h100 {
+  height: 100%;
+}
+
 .content {
-  margin-top: 150px;
+  /* margin-top: 150px; */
   transition: 500ms;
+  max-width: 1500px;
+  margin: 150px auto auto auto;
+  min-height: calc(100vh - 150px);
+  height: 1px
 }
 
 .content.active-state {
@@ -213,7 +221,8 @@ body{
 
 #tsne {
   position: sticky;
-  top: 150px;
+  height: 450px;
+  top: calc(45vh - 225px);
   margin-top: 20px;
   border-radius: 10px;
   overflow: hidden;
