@@ -49,6 +49,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+
   <link rel="stylesheet" href="static/css/bootstrap.min.css" />
   <link rel="stylesheet" href="static/css/select2-bootstrap-5-theme.css" />
   <link rel="stylesheet" href="static/css/style.css" />
@@ -85,57 +89,79 @@
             <option></option>
           </select>
         </div>
+        <div id="tsne"></div>
 
         <div class="container results"></div>
       </div>
     </div>
   </div>
 
+  <!-- <script>
+    d3.csv(
+      'https://raw.githubusercontent.com/plotly/datasets/master/3d-scatter.csv',
+      function (err, rows) {
+        function unpack(rows, key) {
+          return rows.map(function (row) {
+            return row[key];
+          });
+        }
+
+        var trace1 = {
+          x: unpack(rows, 'x1'),
+          y: unpack(rows, 'y1'),
+          z: unpack(rows, 'z1'),
+          mode: 'markers',
+          marker: {
+            color: '#151515',
+            size: 8,
+            line: {
+              width: 0.5,
+            },
+            opacity: 0.8,
+          },
+          type: 'scatter3d',
+        };
+
+        var trace2 = {
+          x: unpack(rows, 'x2'),
+          y: unpack(rows, 'y2'),
+          z: unpack(rows, 'z2'),
+          mode: 'markers',
+          marker: {
+            color: '#1bb954',
+            size: 8,
+            line: {
+              color: '#1bb954',
+              width: 1,
+            },
+            opacity: 0.8,
+          },
+          type: 'scatter3d',
+        };
+
+        var data = [trace1, trace2];
+        var layout = {
+          margin: {
+            l: 0,
+            r: 0,
+            b: 0,
+            t: 0,
+          },
+          font: {
+            size: 10,
+            color: 'white',
+          },
+          plot_bgcolor: '#151515',
+          paper_bgcolor: '#151515',
+        };
+        Plotly.newPlot('tsne', data, layout);
+      }
+    );
+  </script> -->
+
   <script src="static/albums.js"></script>
   <script src="static/script.js"></script>
-
-  <script>
-    var input = document
-      .getElementById('filter-text-val')
-      .addEventListener('keyup', function (event) {
-        if (event.keyCode === 13) {
-          filterText();
-        }
-      });
-
-    function answerBoxTemplate(title) {
-      return `<div class=''>
-                <h3 class='episode-title'>${title}</h3>
-            </div>`;
-    }
-
-    function sendFocus() {
-      document.getElementById('filter-text-val').focus();
-    }
-
-    function filterText() {
-      let i = 0;
-      document.getElementById('answer-box').innerHTML = '';
-      console.log(document.getElementById('filter-text-val').value);
-      fetch(
-        '/episodes?' +
-          new URLSearchParams({
-            title: document.getElementById('filter-text-val').value,
-          }).toString()
-      )
-        .then((response) => response.json())
-        .then((data) =>
-          data.forEach((row) => {
-            if (i < 10) {
-              let tempDiv = document.createElement('div');
-              tempDiv.innerHTML = answerBoxTemplate(row.Title);
-              document.getElementById('answer-box').appendChild(tempDiv);
-              i += 1;
-            }
-          })
-        );
-    }
-  </script>
+  <script src="static/visualization.js"></script>
 
   <!-- Bootstrap -->
   <script

@@ -210,6 +210,33 @@ body{
   transform: scale(1.08)
 }
 
+#tsne {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 50px;
+  transition: 500ms;
+
+  animation: fadein 500ms;
+  -moz-animation: fadein 500ms;
+  /* Firefox */
+  -webkit-animation: fadein 500ms;
+  /* Safari and Chrome */
+  -o-animation: fadein 500ms;
+  /* Opera */
+}
+
+#tsne > * {
+  transition: 500ms;
+
+  animation: fadein 500ms;
+  -moz-animation: fadein 500ms;
+  /* Firefox */
+  -webkit-animation: fadein 500ms;
+  /* Safari and Chrome */
+  -o-animation: fadein 500ms;
+  /* Opera */
+}
+
 @keyframes fadein {
   from {
       opacity:0;
