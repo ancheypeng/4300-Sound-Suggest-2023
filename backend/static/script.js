@@ -6,6 +6,23 @@ const icon = searchWrapper.querySelector('.icon');
 let linkTag = searchWrapper.querySelector('a');
 let webLink;
 
+// // global event listener for enter key
+// document.addEventListener('keydown', (e) => {
+//   if (e.key === 'Enter') {
+//     searchWrapper.classList.remove('active');
+//     query();
+//     document.activeElement.blur();
+//     return;
+//   }
+// });
+
+// search icon onclick
+icon.onclick = () => {
+  searchWrapper.classList.remove('active');
+  query();
+  return;
+};
+
 // if user press any key and release
 inputBox.onkeyup = (e) => {
   if (e.keyCode === 13) {
@@ -70,27 +87,6 @@ function query() {
     `<div class="text-center"><div class='spinner-border text-primary m-5' role='status'></div></div>`
   );
   console.log('Querying...');
-  // song = 'Life Is Good (feat. Drake)';
-  // link = 'https://open.spotify.com/track/5yY9lUy8nbvjM1Uyo1Uqoc';
-  // thumbnail =
-  //   'https://i.scdn.co/image/ab67616d0000b2738a01c7b77a34378a62f46402';
-  // artists = [
-  //   {
-  //     name: 'Future',
-  //     link: 'https://open.spotify.com/artist/1RyvyyTE3xzB2ZywiAwp0i',
-  //   },
-  //   {
-  //     name: 'Drake',
-  //     link: 'https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4',
-  //   },
-  // ];
-
-  // for (let i = 0; i < 5; i++) {
-  //   setTimeout(
-  //     () => $('.results').append(card(song, link, thumbnail, artists)),
-  //     i * 150
-  //   );
-  // }
 
   let searchParams = new URLSearchParams();
   searchParams.append('album', inputBox.value);
@@ -103,9 +99,11 @@ function query() {
     .then((data) => {
       // remove spinner
       $('.results').empty();
-
       console.log(data);
-      data.forEach((value, index) =>
+      createVisualization(data);
+
+      suggested_songs = data['spotify_data'];
+      suggested_songs.forEach((value, index) =>
         setTimeout(
           () =>
             $('.results').append(
