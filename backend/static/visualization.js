@@ -17,7 +17,7 @@ function createVisualization(data) {
       color: '#1bb954',
       size: 8,
       line: {
-        color: '#1bb954',
+        color: '#cccccc',
         width: 1,
       },
       opacity: 0.9,
@@ -42,6 +42,24 @@ function createVisualization(data) {
       opacity: 0.8,
     },
     type: 'scatter3d',
+  };
+
+  var albumCentroid = {
+    name: 'Album Centroid',
+    x: [data['album_centroid'][0]],
+    y: [data['album_centroid'][1]],
+    z: [data['album_centroid'][2]],
+    mode: 'markers',
+    marker: {
+      color: 'white',
+      size: 8,
+      line: {
+        width: 0.5,
+      },
+      opacity: 0.7,
+    },
+    type: 'scatter3d',
+    hoverinfo: 'skip',
   };
 
   var randomSongs = {
@@ -75,13 +93,14 @@ function createVisualization(data) {
       color: '#aaaaaa',
       family: 'Figtree, sans-serif',
     },
-    plot_bgcolor: '#1a1a1a',
-    paper_bgcolor: '#1a1a1a',
+    plot_bgcolor: '#202020',
+    paper_bgcolor: '#202020',
     showlegend: true,
     legend: {
       x: 1,
       xanchor: 'right',
       y: 1,
+      bgcolor: 'rgba(0,0,0,0)',
     },
     title: {
       text: 'Lyrical Similarity',
@@ -91,6 +110,23 @@ function createVisualization(data) {
       xref: 'paper',
       yref: 'paper',
       automargin: true,
+    },
+    scene: {
+      xaxis: {
+        showticklabels: false,
+        zeroline: false,
+        title: '',
+      },
+      yaxis: {
+        showticklabels: false,
+        zeroline: false,
+        title: '',
+      },
+      zaxis: {
+        showticklabels: false,
+        zeroline: false,
+        title: '',
+      },
     },
   };
   Plotly.newPlot('tsne', data, layout);

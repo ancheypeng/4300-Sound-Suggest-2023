@@ -57,7 +57,7 @@ with open('jsons/albums_to_lyric_svd_embeddings.json', 'r') as fp:
 with open('jsons/albums_to_song_indexes.json', 'r') as fp:
     albums_to_song_indexes = json.load(fp)
 
-
+# best: perplexity=20, learning_rate=15
 tsne = TSNE(n_components=3, random_state=0, perplexity=20, learning_rate=15)
 
 
@@ -131,38 +131,7 @@ def songs_search():
     # song indexes sorted by cossim score
     top_songs = [js[0] for js in cossim_scores]
 
-    # visualization_mat = []
-
-    # for idx in albums_to_song_indexes[album]:
-    #     visualization_mat.append(lyric_svd_embeddings[idx])
-
-    # for idx in top_songs[:10]:
-    #     visualization_mat.append(lyric_svd_embeddings[idx])
-
-    # for i in range(len(top_songs)):
-    #     if i % 200 == 0 and not i in top_songs[:10] and i not in albums_to_song_indexes[album]:
-    #         visualization_mat.append(lyric_svd_embeddings[i])
-
-    # visualization_mat = np.array(visualization_mat)
-    # print(visualization_mat)
-    # print(visualization_mat.shape)
-
-    # print("running fit transform")
-    # projections = tsne.fit_transform(visualization_mat)
-    # print("fit transform done")
-
-    # color = [2] * (len(albums_to_song_indexes[album])) + [1] * (10) + [0] * \
-    #     (len(visualization_mat) - len(albums_to_song_indexes[album]) - 10)
-
-    # fig = px.scatter_3d(
-    #     projections, x=0, y=1, z=2,
-    #     template="plotly_dark",
-    #     color=color,
-    #     opacity=0.7
-    # )
-    # fig.write_html("visualizations/projections.html")
-
-    visualization_mat = []
+    visualization_mat = [album_lyric_vec]
     num_songs_in_album = len(album_song_indexes)
 
     for idx in album_song_indexes:
@@ -197,16 +166,20 @@ def songs_search():
     visualization_mat = np.array(visualization_mat)
 
     print("running fit transform")
-    projections = tsne.fit_transform(visualization_mat)
+    projections = tsne.fit_transform(visualization_mat).tolist()
     print("fit transform done")
 
     return_json = dict()
 
     return_json['album_song_names'] = [song_index_to_song_title_and_artist[str(
         song_index)]['title'] for song_index in album_song_indexes]
-    return_json['album_song_embeddings'] = projections[:num_songs_in_album].tolist()
-    return_json['suggested_song_embeddings'] = projections[num_songs_in_album: num_songs_in_album+10].tolist()
-    return_json['random_song_embeddings'] = projections[num_songs_in_album+10:].tolist()
+
+    return_json['album_centroid'] = projections.pop(0)
+    return_json['album_song_embeddings'] = projections[:num_songs_in_album]
+    return_json['suggested_song_embeddings'] = projections[
+        num_songs_in_album: num_songs_in_album+10]
+    return_json['random_song_embeddings'] = projections[
+        num_songs_in_album+10:]
 
     return_json['spotify_data'] = list(spotify_data[:10])
 

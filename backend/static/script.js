@@ -99,6 +99,13 @@ function query() {
     .then((data) => {
       // remove spinner
       $('.results').empty();
+
+      //smooth scroll down
+      setTimeout(
+        () => $(window).scrollTo($('.results'), 500, { offset: { top: -20 } }),
+        500
+      );
+
       console.log(data);
       createVisualization(data);
 
@@ -114,7 +121,7 @@ function query() {
                 value['artists']
               )
             ),
-          index * 150
+          index * 100
         )
       );
     })
