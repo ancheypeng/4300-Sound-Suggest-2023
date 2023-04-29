@@ -82,6 +82,7 @@ function query() {
   searchWrapper.classList.remove('active');
   $('.content').addClass('active-state');
   $('.results').empty();
+  $('#tsne').empty();
   //show spinner when query starts
   $('.results').append(
     `<div class="text-center"><div class='spinner-border text-primary m-5' role='status'></div></div>`
@@ -121,7 +122,7 @@ function query() {
                 value['artists']
               )
             ),
-          index * 100
+          index * 50
         )
       );
     })

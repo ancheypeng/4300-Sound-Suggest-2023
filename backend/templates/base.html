@@ -63,8 +63,12 @@
 </head>
 
 <body>
-  <div class="container-fluid content">
+  <div class="container-xxl content">
+    <div class="row justify-content-md-center"></div>
     <div class="row justify-content-md-center">
+      <div class="col-3">
+        <div id="tsne"></div>
+      </div>
       <div class="col-5">
         <img
           class="logo"
@@ -93,81 +97,11 @@
             <option></option>
           </select>
         </div>
-      </div>
-    </div>
-    <div class="row justify-content-md-center">
-      <div class="col-3">
-        <div id="tsne"></div>
-      </div>
-      <div class="col-5">
         <div class="container results"></div>
       </div>
       <div class="col-3"></div>
     </div>
   </div>
-
-  <!-- <script>
-    d3.csv(
-      'https://raw.githubusercontent.com/plotly/datasets/master/3d-scatter.csv',
-      function (err, rows) {
-        function unpack(rows, key) {
-          return rows.map(function (row) {
-            return row[key];
-          });
-        }
-
-        var trace1 = {
-          x: unpack(rows, 'x1'),
-          y: unpack(rows, 'y1'),
-          z: unpack(rows, 'z1'),
-          mode: 'markers',
-          marker: {
-            color: '#151515',
-            size: 8,
-            line: {
-              width: 0.5,
-            },
-            opacity: 0.8,
-          },
-          type: 'scatter3d',
-        };
-
-        var trace2 = {
-          x: unpack(rows, 'x2'),
-          y: unpack(rows, 'y2'),
-          z: unpack(rows, 'z2'),
-          mode: 'markers',
-          marker: {
-            color: '#1bb954',
-            size: 8,
-            line: {
-              color: '#1bb954',
-              width: 1,
-            },
-            opacity: 0.8,
-          },
-          type: 'scatter3d',
-        };
-
-        var data = [trace1, trace2];
-        var layout = {
-          margin: {
-            l: 0,
-            r: 0,
-            b: 0,
-            t: 0,
-          },
-          font: {
-            size: 10,
-            color: 'white',
-          },
-          plot_bgcolor: '#151515',
-          paper_bgcolor: '#151515',
-        };
-        Plotly.newPlot('tsne', data, layout);
-      }
-    );
-  </script> -->
 
   <script src="static/albums.js"></script>
   <script src="static/script.js"></script>

@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Figtree', sans-serif;
+  
 }
 
 ::-webkit-scrollbar {
@@ -30,6 +31,7 @@ a:hover{
 body{
   background: #121212;
   width: 100%;
+  overflow-x: hidden;
 }
 
 .content {
@@ -211,7 +213,7 @@ body{
 
 #tsne {
   position: sticky;
-  top: 100px;
+  top: 150px;
   margin-top: 20px;
   border-radius: 10px;
   overflow: hidden;
