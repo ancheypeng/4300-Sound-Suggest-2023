@@ -12,6 +12,7 @@ colorama==0.4.6
 cryptography==39.0.2
 cycler==0.10.0
 decorator==4.2.1
+editdistance==0.6.2
 entrypoints==0.2.3
 Flask==2.2.2
 Flask-Cors==3.0.10
