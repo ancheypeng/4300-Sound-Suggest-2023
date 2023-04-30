@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Figtree', sans-serif;
+  
 }
 
 ::-webkit-scrollbar {
@@ -30,11 +31,20 @@ a:hover{
 body{
   background: #121212;
   width: 100%;
+  overflow-x: hidden;
+}
+
+.h100 {
+  height: 100%;
 }
 
 .content {
-  margin-top: 150px;
+  /* margin-top: 150px; */
   transition: 500ms;
+  max-width: 1500px;
+  margin: 150px auto auto auto;
+  min-height: calc(100vh - 150px);
+  height: 1px
 }
 
 .content.active-state {
@@ -177,7 +187,7 @@ body{
   word-wrap: break-word;
 }
 
-.artists {
+.card-text {
   color: #bbbbbb;
 }
 
@@ -209,9 +219,10 @@ body{
   transform: scale(1.08)
 }
 
-#tsne {
+.visualization {
   position: sticky;
-  top: 100px;
+  /* height: 600px; */
+  top: calc(48vh - 250px);
   margin-top: 20px;
   border-radius: 10px;
   overflow: hidden;
@@ -226,7 +237,7 @@ body{
   /* Opera */
 }
 
-#tsne > * {
+.visualization > * {
   border-radius: 10px;
   transition: 500ms;
 
