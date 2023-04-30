@@ -187,7 +187,7 @@ body{
   word-wrap: break-word;
 }
 
-.artists {
+.card-text {
   color: #bbbbbb;
 }
 
@@ -219,10 +219,10 @@ body{
   transform: scale(1.08)
 }
 
-#tsne {
+.visualization {
   position: sticky;
-  height: 450px;
-  top: calc(45vh - 225px);
+  /* height: 600px; */
+  top: calc(48vh - 250px);
   margin-top: 20px;
   border-radius: 10px;
   overflow: hidden;
@@ -237,7 +237,7 @@ body{
   /* Opera */
 }
 
-#tsne > * {
+.visualization > * {
   border-radius: 10px;
   transition: 500ms;
 

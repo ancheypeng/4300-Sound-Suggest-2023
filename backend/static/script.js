@@ -82,7 +82,7 @@ function query() {
   searchWrapper.classList.remove('active');
   $('.content').addClass('active-state');
   $('.results').empty();
-  $('#tsne').empty();
+  $('.visualization').empty();
   //show spinner when query starts
   $('.results').append(
     `<div class="text-center"><div class='spinner-border text-primary m-5' role='status'></div></div>`
@@ -108,7 +108,8 @@ function query() {
       );
 
       console.log(data);
-      createVisualization(data);
+      createTSNE(data);
+      createRadial(data);
 
       suggested_songs = data['spotify_data'];
       suggested_songs.forEach((value, index) =>
@@ -119,7 +120,8 @@ function query() {
                 value['song'],
                 value['link'],
                 value['thumbnail'],
-                value['artists']
+                value['artists'],
+                value['score'].toFixed(2)
               )
             ),
           index * 50
@@ -176,7 +178,7 @@ function artistContent(artists) {
   return artistDiv.html();
 }
 
-function card(song, link, thumbnail, artists) {
+function card(song, link, thumbnail, artists, score) {
   let artistsHTML = artistContent(artists);
   let temp = `
   <div class="card">
@@ -190,8 +192,11 @@ function card(song, link, thumbnail, artists) {
       </div>
       <div class="col col-md-8">
         <h5 class="song-title">${song}</h5>
-        <p class="artists">
+        <p class="card-text">
         ${artistsHTML}
+        </p>
+        <p class="card-text">
+        Similarity: ${score}%
         </p>
       </div>
     </div>
