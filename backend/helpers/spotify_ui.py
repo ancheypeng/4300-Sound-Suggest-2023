@@ -25,6 +25,8 @@ def retrieve_spotify_data_for_frontend(query_song: str, query_artist: str):
 
     song_url = result_data['external_urls']['spotify']
 
+    preview_url = result_data['preview_url']
+
     cover_art_url = result_data['album']['images'][0]['url']
 
     artist_dict_list = []
@@ -43,5 +45,6 @@ def retrieve_spotify_data_for_frontend(query_song: str, query_artist: str):
     spotify_result_dict['link'] = song_url
     spotify_result_dict['thumbnail'] = cover_art_url
     spotify_result_dict['artists'] = artist_dict_list
+    spotify_result_dict['preview'] = preview_url
 
     return spotify_result_dict
