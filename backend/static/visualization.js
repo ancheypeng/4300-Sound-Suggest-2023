@@ -1,4 +1,4 @@
-function createVisualization(data) {
+function createTSNE(data) {
   function unpack(rows, key) {
     return rows.map(function (row) {
       return row[key];
@@ -82,8 +82,9 @@ function createVisualization(data) {
     hoverinfo: 'skip',
   };
 
-  var data = [suggestedSongs, albumSongs, albumCentroid, randomSongs];
+  var plotData = [suggestedSongs, albumSongs, albumCentroid, randomSongs];
   var layout = {
+    height: 500,
     margin: {
       l: 20,
       r: 20,
@@ -109,6 +110,10 @@ function createVisualization(data) {
       font: {
         size: 24,
       },
+      pad: {
+        t: 15,
+        b: 10,
+      },
       xref: 'paper',
       yref: 'paper',
       automargin: true,
@@ -131,7 +136,76 @@ function createVisualization(data) {
       },
     },
   };
-  Plotly.newPlot('tsne', data, layout);
+  Plotly.newPlot('tsne', plotData, layout);
 }
 
-// createVisualization(0);
+function createRadial(data) {
+  console.log(data['radial_data']);
+  albumData = {
+    name: 'Album Tags',
+    type: 'scatterpolar',
+    r: data['radial_data'].shift(),
+    theta: data['radial_dimensions'],
+    visible: true,
+    hoverinfo: 'skip',
+  };
+
+  plotData = [albumData];
+
+  function truncate(str, n) {
+    return str.length > n ? str.slice(0, n - 1) + '...' : str;
+  }
+
+  for (let i = 0; i < data['radial_data'].length; i++) {
+    let songData = { ...albumData };
+    songData['r'] = data['radial_data'][i];
+    songData['visible'] = i == 0 ? true : 'legendonly';
+    songData['name'] = truncate(data['spotify_data'][i]['song'], 15);
+    plotData.push(songData);
+  }
+
+  layout = {
+    height: 500,
+    margin: {
+      b: 20,
+      t: 20,
+    },
+    polar: {
+      radialaxis: {
+        visible: false,
+      },
+      bgcolor: '#202020',
+    },
+    showlegend: true,
+    legend: {
+      bgcolor: 'rgba(0,0,0,0)',
+      xanchor: 'center',
+      yanchor: 'top',
+      y: -0.3, // play with it
+      x: 0.5, // play with it
+    },
+    font: {
+      size: 10,
+      color: '#aaaaaa',
+      family: 'Figtree, sans-serif',
+    },
+    paper_bgcolor: '#202020',
+    title: {
+      text: 'Tag Similarity',
+      font: {
+        size: 24,
+      },
+      pad: {
+        t: 15,
+        b: 30,
+      },
+      xref: 'paper',
+      yref: 'paper',
+      automargin: true,
+    },
+  };
+
+  Plotly.newPlot('radial', plotData, layout);
+}
+
+// createRadial();
