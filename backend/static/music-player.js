@@ -144,6 +144,8 @@ function seekTo() {
 
 function setVolume() {
   curr_track.volume = volume_slider.value / 100;
+  console.log(curr_track.volume);
+  curr_track.muted = curr_track.volume == 0;
 }
 
 function seekUpdate() {
