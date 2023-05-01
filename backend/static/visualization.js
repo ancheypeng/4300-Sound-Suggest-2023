@@ -139,8 +139,12 @@ function createTSNE(data) {
   Plotly.newPlot('tsne', plotData, layout);
 }
 
+function truncate(str, n) {
+  return str.length > n ? str.slice(0, n - 1) + '...' : str;
+}
+
 function createRadial(data) {
-  console.log(data['radial_data']);
+  // console.log(data['radial_data']);
   albumData = {
     name: 'Album Tags',
     type: 'scatterpolar',
@@ -151,10 +155,6 @@ function createRadial(data) {
   };
 
   plotData = [albumData];
-
-  function truncate(str, n) {
-    return str.length > n ? str.slice(0, n - 1) + '...' : str;
-  }
 
   for (let i = 0; i < data['radial_data'].length; i++) {
     let songData = { ...albumData };

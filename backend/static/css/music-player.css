@@ -1,0 +1,162 @@
+.music-player {
+  width: 800px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  margin-left: -400px;
+  height: 100px;
+  background-color: #181818;
+  border: 1px solid #303030;
+  border-bottom: 0;
+  border-radius: 10px 10px 0px 0px;
+  padding: 10px;
+  color: white;
+  z-index: 5;
+}
+
+.player {
+  height: 95vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.track-art {
+  /* margin: 5px; */
+  height: 75px;
+  width: 75px;
+  background-color: #303030;
+  background-size: cover;
+  border-radius: 15%;
+}
+
+.track-details {
+  margin-left: -25px;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.now-playing {
+  font-size: 1rem;
+}
+
+.track-name {
+  margin-top: 15px;
+  font-size: 1rem;
+}
+
+.track-artist {
+  font-size: 0.75rem;
+  color: #bbbbbb;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  margin-top: 3px;
+}
+
+.playpause-track,
+.prev-track,
+.next-track {
+  padding: 0px 10px;
+  opacity: 0.8;
+
+  /* Smoothly transition the opacity */
+  transition: opacity 0.2s;
+}
+
+.playpause-track:hover,
+.prev-track:hover,
+.next-track:hover {
+  opacity: 1;
+}
+
+.slider-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.volume-container {
+  margin-top: 22px;
+}
+
+/* Modify the appearance of the slider */
+.seek-slider,
+.volume-slider {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 5px;
+  background: #303030;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+  border-radius: 2.5px;
+}
+
+/* Modify the appearance of the slider thumb */
+.seek-slider::-webkit-slider-thumb,
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: white;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.seek-slider:hover,
+.volume-slider:hover {
+  opacity: 1;
+}
+
+.seek-slider {
+  width: 60%;
+}
+
+.volume-slider {
+  width: 50%;
+}
+
+.current-time,
+.total-duration {
+  padding: 3px 10px;
+}
+
+i.fa-volume-down,
+i.fa-volume-up {
+  padding: 10px;
+}
+
+i.fa-play-circle,
+i.fa-pause-circle,
+i.fa-step-forward,
+i.fa-step-backward {
+  transition: 200ms;
+  cursor: pointer;
+  color: white;
+}
+
+i.fa-play-circle:hover,
+i.fa-pause-circle:hover,
+i.fa-step-forward:hover,
+i.fa-step-backward:hover {
+  transform: scale(1.08);
+}

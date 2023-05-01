@@ -107,7 +107,6 @@ function query() {
         500
       );
 
-      console.log(data);
       createTSNE(data);
       createRadial(data);
 
@@ -121,12 +120,15 @@ function query() {
                 value['link'],
                 value['thumbnail'],
                 value['artists'],
-                value['score'].toFixed(2)
+                value['score'].toFixed(2),
+                index
               )
             ),
           index * 50
         )
       );
+
+      setTrackList(data);
     })
     .catch((error) => {
       $('.results').empty();
@@ -178,7 +180,7 @@ function artistContent(artists) {
   return artistDiv.html();
 }
 
-function card(song, link, thumbnail, artists, score) {
+function card(song, link, thumbnail, artists, score, index) {
   let artistsHTML = artistContent(artists);
   let temp = `
   <div class="card">
@@ -200,13 +202,7 @@ function card(song, link, thumbnail, artists, score) {
         </p>
       </div>
     </div>
-    <a
-      href="${link}"
-      target="_blank"
-      class="stretched-link"
-    >
-      <img class="play" src="static/images/play.svg" alt="Play Button" />
-    </a>
+      <i class="fa fa-play-circle fa-4x play" onclick="loadAndPlayTrack(${index})"></i>
   </div>`;
 
   return temp;
