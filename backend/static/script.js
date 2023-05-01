@@ -132,7 +132,10 @@ function query() {
     })
     .catch((error) => {
       $('.results').empty();
-      $('.results').append(`<h4 class="error">Invalid Input</h4>`);
+      $('.results').append(
+        `<div><h4 class="error">Invalid Input</h4><img src="static/images/surprise.gif" class="meme" /></div>`
+      );
+      console.log(error);
     });
 }
 

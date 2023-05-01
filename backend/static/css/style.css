@@ -151,6 +151,12 @@ body {
   text-align: center;
 }
 
+.meme {
+  display: block;
+  margin: auto;
+  width: 400px;
+}
+
 .card {
   margin: 20px auto auto auto;
   color: white;
