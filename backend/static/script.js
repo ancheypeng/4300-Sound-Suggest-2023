@@ -95,6 +95,11 @@ function query() {
     .select2('val')
     .forEach((tag) => searchParams.append('tags', tag.toLocaleLowerCase()));
 
+  searchParams.append(
+    'sameArtist',
+    $('#same-artist[type=checkbox]:checked').val()
+  );
+
   fetch('/songs?' + searchParams.toString())
     .then((response) => response.json())
     .then((data) => {

@@ -105,6 +105,8 @@ def songs_search():
     album = request.args.get("album")
     tags = set(request.args.getlist("tags"))
 
+    sameArtist = request.args.getlist("sameArtist")[0] == 'on'
+
     album_lyric_vec = albums_to_lyric_svd_embeddings[album]
     album_tag_vec = albums_to_tag_svd_embeddings[album]
     album_song_indexes = set(albums_to_song_indexes[album])
@@ -146,7 +148,10 @@ def songs_search():
         song_artist = song_index_to_song_title_and_artist[str(
             song_index)]['artist']
         if album_artist == song_artist:
-            score *= 1.1
+            if sameArtist:
+                score *= 1.1
+            else:
+                score = 0
 
         cossim_scores[song_index] = score
 
