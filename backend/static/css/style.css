@@ -149,6 +149,15 @@ body {
 .error {
   color: white;
   text-align: center;
+  margin-top: -25px;
+  margin-bottom: 15px;
+}
+
+.meme {
+  display: block;
+  margin: auto;
+  width: 400px;
+  border-radius: 10px;
 }
 
 .card {

@@ -133,7 +133,7 @@ def songs_search():
         # increase score of songs that have matching tags
         for s in song_tags:
             song_tag = s[0]
-            weight = s[1]
+            weight = int(s[1])
             if song_tag in tags:
 
                 score *= 3 * (weight / 100)
