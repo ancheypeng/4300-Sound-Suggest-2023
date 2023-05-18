@@ -70,7 +70,7 @@ body {
   height: 65px;
 }
 
-.wrapper .search-input {
+.search-input {
   z-index: 3;
   background: #fff;
   border-radius: 27.5px;
@@ -392,4 +392,34 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.free-input {
+  /* margin-top: 25px; */
+  background: #fff;
+  border-radius: 27.5px;
+  width: 75%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border: 1px solid #ced4da;
+  box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
+}
+
+.free-input:focus-within {
+  border-color: #1bb954;
+}
+
+.free-input input {
+  height: 50px;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 27.5px;
+  padding: 0 60px 0 20px;
+  font-size: 16px;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+}
+.free-input.active input {
+  border-radius: 27.5px 27.5px 0 0;
 }
