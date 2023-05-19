@@ -13,6 +13,8 @@ from helpers.spotify_ui import *
 
 from sklearn.manifold import TSNE
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 # ROOT_PATH for linking with all your files.
 # Feel free to use a config.py or settings.py with a global export variable
 os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..", os.curdir))
@@ -66,6 +68,12 @@ with open('jsons/albums_to_song_indexes.json', 'r') as fp:
 with open('jsons/named_tags.json', 'r') as fp:
     named_tags = json.load(fp)
 
+with open('jsons/feature_names.json', 'r') as fp:
+    feature_names = json.load(fp)
+
+with open('jsons/v_matrix.json', 'r') as fp:
+    v_matrix = json.load(fp)
+
 # best: perplexity=20, learning_rate=15
 tsne = TSNE(n_components=3, random_state=0,
             perplexity=20, learning_rate=20)
@@ -105,6 +113,12 @@ def songs_search():
     album = request.args.get("album")
     tags = set(request.args.getlist("tags"))
 
+    free_tags = request.args.get("free_tags")
+    vectorizer = TfidfVectorizer(vocabulary=feature_names)
+
+    free_tags_tf_idf = vectorizer.fit_transform([free_tags])
+    free_tags_svd = free_tags_tf_idf[0] @ v_matrix
+
     sameArtist = request.args.getlist("sameArtist")[0] == 'on'
 
     album_lyric_vec = albums_to_lyric_svd_embeddings[album]
@@ -142,6 +156,10 @@ def songs_search():
 
                 print("INCREASING SCORE OF", song_index,
                       "to", score)
+
+        # increase score by free tag svd
+        # print("FREE TAG SVD SCORE: ", cossim(song_tag_vec, free_tags_svd[0]))
+        score += cossim(song_tag_vec, free_tags_svd[0])
 
         # increase score if artist matches
         album_artist = album.split(" - ")[1]

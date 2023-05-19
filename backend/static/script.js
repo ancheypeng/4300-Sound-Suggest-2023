@@ -6,15 +6,15 @@ const icon = searchWrapper.querySelector('.icon');
 let linkTag = searchWrapper.querySelector('a');
 let webLink;
 
-// // global event listener for enter key
-// document.addEventListener('keydown', (e) => {
-//   if (e.key === 'Enter') {
-//     searchWrapper.classList.remove('active');
-//     query();
-//     document.activeElement.blur();
-//     return;
-//   }
-// });
+// global event listener for enter key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    searchWrapper.classList.remove('active');
+    query();
+    document.activeElement.blur();
+    return;
+  }
+});
 
 // search icon onclick
 icon.onclick = () => {
@@ -25,11 +25,11 @@ icon.onclick = () => {
 
 // if user press any key and release
 inputBox.onkeyup = (e) => {
-  if (e.keyCode === 13) {
-    searchWrapper.classList.remove('active');
-    query();
-    return;
-  }
+  // if (e.keyCode === 13) {
+  //   searchWrapper.classList.remove('active');
+  //   query();
+  //   return;
+  // }
 
   let userData = e.target.value; //user enetered data
 
@@ -91,9 +91,13 @@ function query() {
 
   let searchParams = new URLSearchParams();
   searchParams.append('album', inputBox.value);
-  $('#social-tags')
-    .select2('val')
-    .forEach((tag) => searchParams.append('tags', tag.toLocaleLowerCase()));
+
+  searchParams.append('free_tags', $('#free-tag-input').val());
+  console.log($('#free-tag-input').val());
+
+  // $('#social-tags')
+  //   .select2('val')
+  //   .forEach((tag) => searchParams.append('tags', tag.toLocaleLowerCase()));
 
   searchParams.append(
     'sameArtist',
