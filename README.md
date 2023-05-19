@@ -1,8 +1,12 @@
-# SOUND SUGGEST
+<img src="backend/static/images/Sound Suggest.svg"  width="600">  
+
+<br />  
+
+# Sound Suggest
 
 ## Contents
 
-- [SOUND SUGGEST](#sound-suggest)
+- [Sound Suggest](#sound-suggest)
   - [Contents](#contents)
   - [Summary](#summary)
   - [Running locally](#running-locally)
